@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout(title, css, main, js)" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout(title, css, main, js)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,15 +56,14 @@
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <img src="/img/default-avatar.png" class="user-image img-circle elevation-2" alt="User Image">
-          <span class="d-none d-md-inline">xx_name</span>
+          <span sec:authentication="name" class="d-none d-md-inline">xx_name</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
           <!-- User image -->
           <li class="user-header bg-gray-light">
             <img src="/img/default-avatar.png" class="img-circle elevation-2" alt="User Image">
-            <p>
+            <p sec:authentication="name">
               xx_name
-              <small>xx_email</small>
             </p>
           </li>
           <!-- Menu Footer-->
