@@ -36,6 +36,9 @@ public class SecurityConfiguration {
                         //.logoutSuccessUrl("/")
                         .logoutSuccessHandler(customLogoutSuccessHandler)
                 )
+                .rememberMe(rm -> rm
+                        .rememberMeParameter("remember-me")
+                )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/login", "/build/**", "/vendor/**").permitAll()
                         .requestMatchers("/backend/**").hasAnyRole("admin")
