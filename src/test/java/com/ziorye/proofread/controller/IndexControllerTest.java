@@ -29,6 +29,7 @@ class IndexControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("index"))
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(applicationName)))
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(env.getProperty("spring.application.name"))))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("校对,校對,proof,proofread")))
         ;
     }
 }

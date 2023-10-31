@@ -1,0 +1,12 @@
+.feature {
+    padding: 5rem;
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    .feature-title {
+        font-weight: 400;
+        margin-bottom: 2rem;
+    }
+}
