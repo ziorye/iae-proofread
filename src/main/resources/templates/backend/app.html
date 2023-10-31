@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html th:fragment="layout(title, css, main, js)" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="|${title} - ${@environment.getProperty('spring.application.name')}|">Backend Dashboard</title>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="/vendor/adminlte/fonts/fonts.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/vendor/adminlte/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/vendor/adminlte/dist/css/adminlte.min.css">
+  <th:block th:replace="${css}" />
+</head>
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown user-menu">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <img src="/img/default-avatar.png" class="user-image img-circle elevation-2" alt="User Image">
+          <span class="d-none d-md-inline">xx_name</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+          <!-- User image -->
+          <li class="user-header bg-gray-light">
+            <img src="/img/default-avatar.png" class="img-circle elevation-2" alt="User Image">
+            <p>
+              xx_name
+              <small>xx_email</small>
+            </p>
+          </li>
+          <!-- Menu Footer-->
+          <li class="user-footer">
+            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="#" class="btn btn-default btn-flat float-right">
+              退出
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" target="_blank" class="brand-link">
+      <img src="/img/logo-short.svg" alt="example"
+           class="brand-image mr-3">
+      <span class="brand-text font-weight-light" th:text="${@environment.getProperty('spring.application.name')}">example</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="/backend/dashboard" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i> <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/backend/empty" class="nav-link">
+              <i class="nav-icon fas fa-square"></i> <p>Empty</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <th:block th:replace="${main}" />
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.1.0-rc
+    </div>
+    <strong>Copyright &copy; [[${#calendars.format(#calendars.createNow(), 'y')}]] [[${@environment.getProperty('spring.application.name')}]]</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/vendor/adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/vendor/adminlte/dist/js/adminlte.min.js"></script>
+<th:block th:replace="${js}" />
+</body>
+</html>
