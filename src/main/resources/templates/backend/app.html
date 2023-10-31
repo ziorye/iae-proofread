@@ -97,14 +97,9 @@
             data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="/backend/dashboard" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i> <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/backend/empty" class="nav-link">
-              <i class="nav-icon fas fa-square"></i> <p>Empty</p>
+          <li class="nav-item" th:each="menu : ${menus}">
+            <a href="#" th:href="${menu.url}" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt" th:class="'nav-icon fas fa-' + ${menu.icon}"></i> <p th:text="${menu.name}">Dashboard</p>
             </a>
           </li>
         </ul>
