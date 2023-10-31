@@ -48,37 +48,78 @@
                         </a>
                     </li>
 
-                    <li class="nav-item"><a th:href="@{/login}" href="login.html" class="btn btn-sm btn-primary transition-3d-hover my-3 my-lg-0">登录</a></li>
+                    <li class="nav-item"><a href="#" class="btn btn-sm btn-primary transition-3d-hover my-3 my-lg-0">登录</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
 
-<div class="features mb-2rem">
-    <div class="feature">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 text-center text-lg-left align-self-center">
-                    <h3 class="feature-title animate__animated animate__delay-0s animate__zoomInDown">校對</h3>
-                    <p class="lead text-muted">
-                        諸字有誤者，以雌黃塗訖，別書。<br>
-                        或多字，以雌黃圈之；<br>
-                        少者，於字旁添入；<br>
-                        或字側不容注者，即用朱圈，仍於本行上下空紙上標寫。<br>
-                        倒置，於兩字間書乙字。<br>
-                        諸點語斷處，以側為正；<br>
-                        其有人名、地點、物名等合細分者，即於中間細點。<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">登录</div>
+
+                <div class="card-body">
+                    <p class="text-center text-muted font-size-12"><span class="text-primary">✔（推荐方案）</span>使用第三方账号登录</p>
+                    <p class="text-center">
+                        <a class="btn btn-outline-primary" href="#" role="button">
+                            <svg class="bi bi-github" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                            </svg>
+                            GitHub
+                        </a>
                     </p>
-                    <div id="typed-strings">
-                        <p class="lead text-muted d-none">......</p>
-                    </div>
-                    <span class="lead text-muted" id="typed"></span>
-                </div>
-                <div class="col-lg-6 mt-3 mt-lg-0">
-                    <div class="text-center text-lg-right" data-aos="zoom-in">
-                        <a href="#"><img class="img-fluid shadow w-75" src="/img/proofread/proofread.png" alt="proofread"></a>
-                    </div>
+                    <p class="mt-5 text-center text-muted font-size-12">（备选方案）使用邮箱、密码登录</p>
+                    <form method="POST" action="#">
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">邮箱</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control " name="email" value="" required autocomplete="email" autofocus>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">密码</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control " name="password" required autocomplete="current-password">
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" >
+
+                                    <label class="form-check-label" for="remember">
+                                        记住我
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    登录
+                                </button>
+
+                                <a class="btn btn-link font-size-12 text-muted" href="#">
+                                    忘记密码
+                                </a>
+
+                                <a class="btn btn-link font-size-12 text-muted" href="#">
+                                    注册新账号
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
