@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, css, main, js)">
+<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, css, main, js)" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +48,24 @@
                         </a>
                     </li>
 
-                    <li class="nav-item"><a th:href="@{/login}" href="login.html" class="btn btn-sm btn-primary transition-3d-hover my-3 my-lg-0">登录</a></li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span sec:authentication="name">xx-name</span> <span class="caret"></span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a sec:authorize="hasRole('admin')" class="dropdown-item" href="#" th:href="@{/backend/dashboard}">
+                                后台管理
+                            </a>
+                            <a class="dropdown-item" href="#"
+                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                退出
+                            </a>
+
+                            <form id="logout-form" action="#" method="POST" style="display: none;"></form>
+                        </div>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()" class="nav-item"><a href="/login" class="btn btn-sm btn-primary transition-3d-hover my-3 my-lg-0">登录</a></li>
                 </ul>
             </div>
         </div>
