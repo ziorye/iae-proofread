@@ -20,3 +20,5 @@ const options = {
 if (document.getElementById("typed-strings")) {
     new Typed("#typed", options);
 }
+
+import 'animate.css';
