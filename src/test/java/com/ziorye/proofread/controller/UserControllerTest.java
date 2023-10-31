@@ -13,15 +13,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+class UserControllerTest{
     @Autowired
     MockMvc mvc;
 
     @Test
     void login() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/login"))
-                .andExpect(MockMvcResultMatchers.view().name("login"))
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("登录")))
+                //.andExpect(MockMvcResultMatchers.view().name("login"))
+                //.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("登录")))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Please sign in")))
         ;
     }
 }

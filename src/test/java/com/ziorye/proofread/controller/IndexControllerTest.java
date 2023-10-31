@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class IndexControllerTest {
+class IndexControllerTest extends WithMockUserBaseTest {
     @Autowired
     MockMvc mvc;
 

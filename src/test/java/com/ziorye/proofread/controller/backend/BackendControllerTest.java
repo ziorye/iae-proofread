@@ -1,6 +1,7 @@
 package com.ziorye.proofread.controller.backend;
 
 import com.ziorye.proofread.bean.backend.BackendMenus;
+import com.ziorye.proofread.controller.WithMockUserBaseTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BackendControllerTest {
+class BackendControllerTest extends WithMockUserBaseTest {
     @Autowired
     MockMvc mvc;
 
