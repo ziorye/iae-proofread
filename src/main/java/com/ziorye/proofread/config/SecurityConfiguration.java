@@ -25,6 +25,11 @@ public class SecurityConfiguration {
                         .passwordParameter("password")
                         //.defaultSuccessUrl("/", true)
                 )
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
+                )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/login", "/build/**", "/vendor/**").permitAll()
                         .requestMatchers("/backend/**").hasAnyRole("admin")
