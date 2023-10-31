@@ -44,4 +44,13 @@ class BackendControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("menus", backendMenus.getMenus()))
         ;
     }
+
+    @Test
+    void testRequestURIUsingAtModelAttribute() throws Exception {
+        String path = "/backend/empty";
+        mvc.perform(MockMvcRequestBuilders.get(path))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("requestURI"))
+                .andExpect(MockMvcResultMatchers.model().attribute("requestURI", path))
+        ;
+    }
 }
