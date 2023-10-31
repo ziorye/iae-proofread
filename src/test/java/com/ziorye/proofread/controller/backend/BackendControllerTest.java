@@ -1,13 +1,13 @@
 package com.ziorye.proofread.controller.backend;
 
 import com.ziorye.proofread.bean.backend.BackendMenus;
-import com.ziorye.proofread.controller.WithMockUserBaseTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -54,6 +54,14 @@ class BackendControllerTest {
         mvc.perform(MockMvcRequestBuilders.get(path))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("requestURI"))
                 .andExpect(MockMvcResultMatchers.model().attribute("requestURI", path))
+        ;
+    }
+
+    @Test
+    void testLogout() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/logout"))
+                .andExpect(SecurityMockMvcResultMatchers.unauthenticated())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/"))
         ;
     }
 }
