@@ -15,13 +15,15 @@
                                 GitHub
                             </a>
                         </p>
-                        <p class="mt-5 text-center text-muted font-size-12">（备选方案）使用邮箱、密码登录</p>
-                        <form method="POST" action="#">
+                        <p class="mt-5 text-center text-muted font-size-12">（备选方案）使用用户名、密码登录</p>
+                        <p class="text-center text-primary" th:if="${param.error}">Invalid username and password.</p>
+                        <p class="text-center text-primary" th:if="${param.logout}">You have been logged out.</p>
+                        <form method="POST" action="#" th:action="@{/login}">
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">邮箱</label>
+                                <label for="username" class="col-md-4 col-form-label text-md-right">用户名</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control " name="email" value="" required autocomplete="email" autofocus>
+                                    <input id="username" type="text" class="form-control " name="username" value="" required autocomplete="username" autofocus>
 
                                 </div>
                             </div>
