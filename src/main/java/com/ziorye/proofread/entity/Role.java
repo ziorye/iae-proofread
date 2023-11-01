@@ -8,19 +8,19 @@ import java.util.List;
 
 @Data
 @Entity
-public class User {
+public class Role {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String password;
-    private boolean enabled;
+    private String description;
+    private int sort;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName="id")
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName="id")
     )
-    private List<Role> roles = new ArrayList<>();
+    private List<Permission> permissions = new ArrayList<>();
 }
