@@ -3,6 +3,7 @@ package com.ziorye.proofread.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class User {
     private Long id;
     private String name;
     private String password;
+    private String email;
+    private String phone;
+    private LocalDateTime createdAt;
     private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
