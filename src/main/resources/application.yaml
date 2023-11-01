@@ -8,6 +8,10 @@ spring:
     password: secret_mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  jpa:
+    generate-ddl: true
+    show-sql: true
+
 backend:
   menus:
     - name: "Dashboard"
