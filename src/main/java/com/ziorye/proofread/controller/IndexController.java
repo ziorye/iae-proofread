@@ -9,4 +9,9 @@ public class IndexController {
     String index() {
         return "index";
     }
+
+    @GetMapping("/login")
+    String login() {
+        return "login";
+    }
 }
