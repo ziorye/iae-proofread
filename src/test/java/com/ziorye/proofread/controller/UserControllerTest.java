@@ -1,17 +1,17 @@
 package com.ziorye.proofread.controller;
 
 import org.hamcrest.Matchers;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -63,6 +63,21 @@ class UserControllerTest {
                 .andExpect(SecurityMockMvcResultMatchers.authenticated())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/user/dashboard"))
+        ;
+    }
+
+    @Test
+    void userDashboardWithoutLogin() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/dashboard"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        ;
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = "jpaUserDetailsService", value = "user@example.com")
+    void userDashboardWithLogin() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/dashboard"))
+                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("user@example.com")))
         ;
     }
 }
