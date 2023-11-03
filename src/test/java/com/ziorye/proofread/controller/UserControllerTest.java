@@ -80,4 +80,16 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("user@example.com")))
         ;
     }
+
+    @Test
+    void userRegisterWithExistingEmail() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/user/register")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", "new-name")
+                        .param("email", "admin@example.com")
+                        .param("password", "secret")
+                )
+                .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrorCode("user", "email", "exist"))
+        ;
+    }
 }
