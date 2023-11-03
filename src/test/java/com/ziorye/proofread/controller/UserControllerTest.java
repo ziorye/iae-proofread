@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.UUID;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest {
@@ -90,6 +92,19 @@ class UserControllerTest {
                         .param("password", "secret")
                 )
                 .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrorCode("user", "email", "exist"))
+        ;
+    }
+
+    @Test
+    void userRegisterAutoLogin() throws Exception {
+        String randomStr = UUID.randomUUID().toString().substring(0, 6);
+        mvc.perform(MockMvcRequestBuilders.post("/user/register")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", randomStr)
+                        .param("email", randomStr + "@example.com")
+                        .param("password", "secret")
+                )
+                .andExpect(SecurityMockMvcResultMatchers.authenticated())
         ;
     }
 }
