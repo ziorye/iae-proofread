@@ -107,4 +107,33 @@ class UserControllerTest {
                 .andExpect(SecurityMockMvcResultMatchers.authenticated())
         ;
     }
+
+    @Test
+    void getPasswordRestPage() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/password-reset"))
+                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("发送重置密码链接")))
+        ;
+
+    }
+
+    @Test
+    void postPasswordRestWithNonExistentEmail() throws Exception {
+        String randomStr = UUID.randomUUID().toString().substring(0, 6);
+        mvc.perform(MockMvcRequestBuilders.post("/user/password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("email", randomStr + "@example.com")
+                )
+                .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrorCode("passwordResetEmail", "email", "non-existent"))
+        ;
+    }
+
+    @Test
+    void postPasswordRestWithExistEmail() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/user/password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("email", "admin@example.com")
+                )
+                .andExpect(MockMvcResultMatchers.flash().attribute("success", "密码重置邮件已发送，请注意查收"))
+        ;
+    }
 }
