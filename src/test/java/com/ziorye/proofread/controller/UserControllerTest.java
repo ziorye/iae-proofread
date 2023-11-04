@@ -1,5 +1,9 @@
 package com.ziorye.proofread.controller;
 
+import com.ziorye.proofread.entity.PasswordResetToken;
+import com.ziorye.proofread.entity.User;
+import com.ziorye.proofread.repository.PasswordResetTokenRepository;
+import com.ziorye.proofread.repository.UserRepository;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
@@ -13,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootTest
@@ -135,5 +140,71 @@ class UserControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.flash().attribute("success", "密码重置邮件已发送，请注意查收"))
         ;
+    }
+
+    @Test
+    void showDoPasswordRestFormWithNonExistentToken() throws Exception {
+        String nonExistentToken = UUID.randomUUID().toString();
+        mvc.perform(MockMvcRequestBuilders.get("/user/do-password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("token", nonExistentToken)
+                )
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "token 不存在"))
+        ;
+    }
+
+    @Test
+    void showDoPasswordRestFormWithExpiredToken(@Autowired UserRepository userRepository,
+                                                @Autowired PasswordResetTokenRepository passwordResetTokenRepository) throws Exception {
+        User user = new User();
+        String username = UUID.randomUUID().toString().substring(0, 6);
+        user.setName(username);
+        user.setEmail(username + "@example.com");
+        userRepository.save(user);
+        PasswordResetToken token = new PasswordResetToken();
+        token.setUser(user);
+        String expiredToken = UUID.randomUUID().toString();
+        token.setToken(expiredToken);
+        token.setExpirationDate(LocalDateTime.now().minusMinutes(30));
+        passwordResetTokenRepository.save(token);
+
+        mvc.perform(MockMvcRequestBuilders.get("/user/do-password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("token", expiredToken)
+                )
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "token 已过期"))
+        ;
+
+        passwordResetTokenRepository.delete(token);
+        userRepository.delete(user);
+    }
+
+    @Test
+    void showDoPasswordRestFormWithCorrectToken(@Autowired UserRepository userRepository,
+                                                @Autowired PasswordResetTokenRepository passwordResetTokenRepository) throws Exception {
+        User user = new User();
+        String username = UUID.randomUUID().toString().substring(0, 6);
+        user.setName(username);
+        user.setEmail(username + "@example.com");
+        user.setEnabled(true);
+        userRepository.save(user);
+        PasswordResetToken token = new PasswordResetToken();
+        token.setUser(user);
+        String correctToken = UUID.randomUUID().toString();
+        token.setToken(correctToken);
+        token.setExpirationDate(LocalDateTime.now().plusMinutes(30));
+        passwordResetTokenRepository.save(token);
+
+        mvc.perform(MockMvcRequestBuilders.get("/user/do-password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("token", correctToken)
+                )
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error"))
+                .andExpect(MockMvcResultMatchers.model().hasNoErrors())
+                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("新密码")))
+        ;
+
+        passwordResetTokenRepository.delete(token);
+        userRepository.delete(user);
     }
 }

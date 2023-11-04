@@ -1,5 +1,6 @@
 package com.ziorye.proofread.controller;
 
+import com.ziorye.proofread.dto.PasswordResetDto;
 import com.ziorye.proofread.dto.PasswordResetEmailDto;
 import com.ziorye.proofread.dto.UserDto;
 import com.ziorye.proofread.entity.PasswordResetToken;
@@ -19,10 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
@@ -114,11 +112,7 @@ public class UserController {
         try {
             passwordResetTokenService.save(token);
         } catch (Exception e) {
-            if (e.getMessage().contains("Duplicate entry ")) {
-                result.rejectValue("email", "duplicate-password_reset_token", "之前已发送，请注意查收");
-            } else {
-                result.rejectValue("email", null, "未知错误");
-            }
+            result.rejectValue("email", null, "未知错误，请联系管理员");
             model.addAttribute("passwordResetEmail", passwordResetEmailDto);
             return "user/password-reset";
         }
@@ -135,5 +129,20 @@ public class UserController {
 
         attributes.addFlashAttribute("success", "密码重置邮件已发送，请注意查收");
         return "redirect:/user/password-reset";
+    }
+
+    @GetMapping("do-password-reset")
+    String showDoPasswordRestForm(@RequestParam(name = "token", required = false) String token, Model model) {
+        PasswordResetToken passwordResetToken = passwordResetTokenService.findFirstByTokenOrderByIdDesc(token);
+        if (passwordResetToken == null) {
+            model.addAttribute("error", "token 不存在");
+        } else if (passwordResetToken.getExpirationDate().isBefore(LocalDateTime.now())) {
+            model.addAttribute("error", "token 已过期");
+        }
+
+        PasswordResetDto passwordResetDto = new PasswordResetDto();
+        model.addAttribute("passwordResetDto", passwordResetDto);
+
+        return "user/do-password-reset";
     }
 }

@@ -16,8 +16,8 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
     }
 
     @Override
-    public PasswordResetToken findByToken(String token) {
-        return passwordResetTokenRepository.findByToken(token).orElse(null);
+    public PasswordResetToken findFirstByTokenOrderByIdDesc(String token) {
+        return passwordResetTokenRepository.findFirstByTokenOrderByIdDesc(token).orElse(null);
     }
 
     @Override
