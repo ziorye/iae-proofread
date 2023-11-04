@@ -153,9 +153,6 @@ public class UserController {
     public String resetPassword(@Valid @ModelAttribute("passwordResetDto") PasswordResetDto passwordResetDto,
                                 BindingResult result,
                                 RedirectAttributes attributes) {
-        if (!passwordResetDto.getPassword().equals(passwordResetDto.getConfirmPassword())) {
-            result.rejectValue("password", "error-confirm-password", "两次密码输入不一致");
-        }
         if(result.hasErrors()){
             attributes.addFlashAttribute("passwordResetDto", passwordResetDto);
             return "/user/do-password-reset";
