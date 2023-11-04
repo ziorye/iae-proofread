@@ -1,0 +1,68 @@
+<div th:replace="~{ backend/app :: layout ('用户管理', _, ~{::#main}, _) }" xmlns:th="http://www.thymeleaf.org">
+  <div class="content-wrapper" id="main">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>用户列表</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Users</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="user, stats:${page.getContent()}">
+                    <td th:text="${stats.count}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="page-container pt-3">
+                  <!--<p class="text-muted p-1">当前第 [[${page.getNumber()+1}]] 页，总计 [[${page.getTotalPages()}]] 页，共 [[${page.getTotalElements()}]] 条记录</p>-->
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                      <li class="page-item" th:if="${page.hasPrevious()}">
+                        <a class="page-link" href="#" th:href="@{/backend/users(page=${page.getNumber()})}" tabindex="-1" aria-disabled="true">Previous</a>
+                      </li>
+                      <li th:class="${currentPageNumber == page.getNumber()+1 ? 'page-item active' : 'page-item'}" class="page-item" th:each="currentPageNumber:${#numbers.sequence(1, page.getTotalPages())}"><a class="page-link" th:href="@{/backend/users(page=${currentPageNumber})}" href="#">[[${currentPageNumber}]]</a></li>
+                      <li class="page-item" th:if="${page.hasNext()}">
+                        <a class="page-link" href="#" th:href="@{/backend/users(page=${page.getNumber()+2})}">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+</div>

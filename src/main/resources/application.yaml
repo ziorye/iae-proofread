@@ -24,3 +24,6 @@ backend:
     - name: "Empty"
       url: "/backend/empty"
       icon: "square"
+    - name: Users
+      url: /backend/users
+      icon: users

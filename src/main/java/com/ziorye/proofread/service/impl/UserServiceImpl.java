@@ -5,6 +5,9 @@ import com.ziorye.proofread.entity.User;
 import com.ziorye.proofread.repository.UserRepository;
 import com.ziorye.proofread.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +44,11 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public Page<User> findAll(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        return this.userRepository.findAll(pageable);
     }
 }
