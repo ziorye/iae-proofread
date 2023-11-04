@@ -36,4 +36,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findFirstByEmail(email);
         return optionalUser.orElse(null);
     }
+
+    @Override
+    public void updatePassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
 }
