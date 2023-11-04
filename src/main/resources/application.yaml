@@ -12,6 +12,10 @@ spring:
     #generate-ddl: true
     show-sql: true
 
+  mail:
+    host: localhost
+    port: 1025
+
 backend:
   menus:
     - name: "Dashboard"
