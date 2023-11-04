@@ -13,6 +13,7 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -29,6 +30,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
     @Autowired
     UserService userService;
@@ -163,6 +165,11 @@ public class UserController {
         User user = token.getUser();
         user.setPassword(passwordResetDto.getPassword());
         userService.updatePassword(user);
+
+        //
+        int expireThisTokenResult = passwordResetTokenService.expireThisToken(passwordResetDto.getToken());
+        log.info("expireThisToken={}, return={}", passwordResetDto.getToken(), expireThisTokenResult);
+
         return "redirect:/login";
     }
 }

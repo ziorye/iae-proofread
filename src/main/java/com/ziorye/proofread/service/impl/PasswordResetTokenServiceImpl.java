@@ -29,4 +29,9 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
     public PasswordResetToken findByToken(String token) {
         return passwordResetTokenRepository.findByToken(token).orElse(null);
     }
+
+    @Override
+    public int expireThisToken(String token) {
+        return passwordResetTokenRepository.updateExpirationDateForThisToken(token);
+    }
 }

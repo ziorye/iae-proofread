@@ -267,4 +267,42 @@ class UserControllerTest {
         passwordResetTokenRepository.delete(token);
         userRepository.delete(user);
     }
+
+    @Test
+    void expireThisTokenAfterPasswordReset(@Autowired UserRepository userRepository,
+                                                @Autowired PasswordResetTokenRepository passwordResetTokenRepository) throws Exception {
+        User user = new User();
+        String username = UUID.randomUUID().toString().substring(0, 6);
+        user.setName(username);
+        user.setEmail(username + "@example.com");
+        user.setEnabled(true);
+        userRepository.save(user);
+        PasswordResetToken token = new PasswordResetToken();
+        token.setUser(user);
+        String correctToken = UUID.randomUUID().toString();
+        token.setToken(correctToken);
+        token.setExpirationDate(LocalDateTime.now().plusMinutes(30));
+        passwordResetTokenRepository.save(token);
+
+        mvc.perform(MockMvcRequestBuilders.post("/user/do-password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("token", correctToken)
+                        .param("password", "new-password")
+                        .param("confirmPassword", "new-password")
+                )
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error"))
+                .andExpect(MockMvcResultMatchers.model().hasNoErrors())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/login"))
+        ;
+
+        mvc.perform(MockMvcRequestBuilders.get("/user/do-password-reset")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("token", correctToken)
+                )
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "token 已过期"))
+        ;
+
+        passwordResetTokenRepository.delete(token);
+        userRepository.delete(user);
+    }
 }
