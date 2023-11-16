@@ -52,7 +52,7 @@
                                                th:onclick="|event.preventDefault(); if(confirm('Are you sure you want to Remove?')) document.getElementById('destroy-form-${collection.id}').submit();|">
                                                 <i class="fas fa-trash"></i>
                                                 Remove
-                                                <form th:id="${'destroy-form-' + collection.id}" action="#" th:method="delete" style="display: none;">
+                                                <form th:id="${'destroy-form-' + collection.id}" th:action="@{'/backend/collections/destroy/' + ${collection.id}}" th:method="delete" style="display: none;">
                                                 </form>
                                             </a>
                                         </td>
