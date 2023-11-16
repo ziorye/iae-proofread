@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -31,5 +32,12 @@ public class CollectionController {
     String destroy(@PathVariable Long id) {
         collectionService.destroy(id);
         return "redirect:/backend/collections";
+    }
+
+    @DeleteMapping("destroy")
+    @ResponseBody
+    String destroyBatch(@RequestParam(value = "ids[]") List<Long> ids) {
+        collectionService.destroyAllById(ids);
+        return "DONE";
     }
 }
