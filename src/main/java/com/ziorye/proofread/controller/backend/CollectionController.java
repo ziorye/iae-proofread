@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Controller
+@Controller("backendCollectionController")
 @RequestMapping("/backend/collections")
 public class CollectionController {
     @Autowired

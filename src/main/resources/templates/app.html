@@ -41,7 +41,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto d-flex align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center " href="#">
+                        <a th:class="|nav-link d-flex align-items-center ${#strings.startsWith(requestURI, '/docs') ? ' active' : ''}|" href="#" th:href="@{/docs}">
                             <i class="bi bi-collection"></i>
                             文档
                         </a>
