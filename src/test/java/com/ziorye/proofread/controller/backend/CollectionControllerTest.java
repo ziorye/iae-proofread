@@ -125,4 +125,41 @@ class CollectionControllerTest extends WithMockUserForAdminBaseTest {
 
         collectionRepository.delete(co.get());
     }
+
+    @Test
+    void update(@Autowired CollectionRepository collectionRepository) throws Exception {
+        String title = "title-" + UUID.randomUUID();
+        mvc.perform(MockMvcRequestBuilders.post("/backend/collections/store")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "")
+                        .param("title", title)
+                        .param("slug", UUID.randomUUID().toString())
+                        .param("type", "doc")
+                        .param("description", "content-" + UUID.randomUUID())
+                        .param("user_id", "1")
+                )
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/backend/collections"))
+        ;
+        Optional<Collection> co = collectionRepository.findFirstByTitle(title);
+        Assertions.assertTrue(co.isPresent());
+        Collection collection = co.get();
+
+        String descriptionUpdated = "description--updated";
+        mvc.perform(MockMvcRequestBuilders.put("/backend/collections/update")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", collection.getId().toString())
+                        .param("title", collection.getTitle())
+                        .param("slug", UUID.randomUUID().toString())
+                        .param("type", collection.getType())
+                        .param("description", descriptionUpdated)
+                        .param("user_id", collection.getUser().getId().toString())
+                )
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/backend/collections"))
+        ;
+
+        Collection collectionUpdated = collectionRepository.findFirstByTitle(title).get();
+        Assertions.assertEquals(descriptionUpdated, collectionUpdated.getDescription());
+
+        collectionRepository.delete(co.get());
+    }
 }

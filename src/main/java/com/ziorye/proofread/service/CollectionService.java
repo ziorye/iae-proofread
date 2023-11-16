@@ -5,6 +5,7 @@ import com.ziorye.proofread.entity.Collection;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CollectionService {
     Page<Collection> findAll(int pageNumber, int pageSize);
@@ -14,4 +15,6 @@ public interface CollectionService {
     void destroyAllById(List<Long> ids);
 
     void save(CollectionDto collectionDto);
+
+    Optional<Collection> findById(Long id);
 }
