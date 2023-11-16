@@ -1,5 +1,6 @@
 package com.ziorye.proofread.service;
 
+import com.ziorye.proofread.dto.CollectionDto;
 import com.ziorye.proofread.entity.Collection;
 import org.springframework.data.domain.Page;
 
@@ -11,4 +12,6 @@ public interface CollectionService {
     void destroy(Long id);
 
     void destroyAllById(List<Long> ids);
+
+    void save(CollectionDto collectionDto);
 }

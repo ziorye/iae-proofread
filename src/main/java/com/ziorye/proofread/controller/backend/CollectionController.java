@@ -1,11 +1,14 @@
 package com.ziorye.proofread.controller.backend;
 
+import com.ziorye.proofread.dto.CollectionDto;
 import com.ziorye.proofread.entity.Collection;
 import com.ziorye.proofread.service.CollectionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,5 +42,21 @@ public class CollectionController {
     String destroyBatch(@RequestParam(value = "ids[]") List<Long> ids) {
         collectionService.destroyAllById(ids);
         return "DONE";
+    }
+
+    @GetMapping("create")
+    String create(Model model) {
+        model.addAttribute("collection", new Collection());
+        return "backend/collection/create";
+    }
+
+    @PostMapping("store")
+    String store(@Valid @ModelAttribute("collection") CollectionDto collectionDto,
+                 BindingResult result) {
+        if (result.hasErrors()) {
+            return "backend/collection/create";
+        }
+        collectionService.save(collectionDto);
+        return "redirect:/backend/collections";
     }
 }
