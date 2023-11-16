@@ -3,6 +3,7 @@ package com.ziorye.proofread.controller.backend;
 import com.ziorye.proofread.dto.CollectionDto;
 import com.ziorye.proofread.entity.Collection;
 import com.ziorye.proofread.service.CollectionService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -113,5 +114,21 @@ public class CollectionController {
         collectionService.save(collectionDto);
 
         return "redirect:/backend/collections";
+    }
+
+    @PostMapping("togglePublished/{id}")
+    @ResponseBody
+    @Transactional
+    public String togglePublished(@PathVariable Long id) {
+        Optional<Collection> optionalPost = collectionService.findById(id);
+
+        if (optionalPost.isEmpty()
+                || !"doc".equals(optionalPost.get().getType())
+        ) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doc Not Found");
+        }
+
+        collectionService.togglePublished(id);
+        return "SUCCESS";
     }
 }

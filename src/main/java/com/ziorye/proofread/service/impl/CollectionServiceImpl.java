@@ -68,4 +68,9 @@ public class CollectionServiceImpl implements CollectionService {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("id").descending());
         return this.collectionRepository.findAllByType("doc", pageable);
     }
+
+    @Override
+    public void togglePublished(Long id) {
+        this.collectionRepository.togglePublished(id);
+    }
 }
