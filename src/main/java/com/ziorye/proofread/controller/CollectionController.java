@@ -23,7 +23,7 @@ public class CollectionController {
                  @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
-        Page<Collection> pageContent = collectionService.findAllDocs(currentPage, pageSize);
+        Page<Collection> pageContent = collectionService.findAllPublishedDocs(currentPage, pageSize);
         model.addAttribute("page", pageContent);
         return "collection/doc/index";
     }
@@ -32,7 +32,7 @@ public class CollectionController {
     String show(@PathVariable Long id, Model model) {
         Optional<Collection> optionalPost = collectionService.findById(id);
 
-        if (optionalPost.isEmpty() /*|| !optionalPost.get().isPublished()*/
+        if (optionalPost.isEmpty() || !optionalPost.get().isPublished()
                 || !"doc".equals(optionalPost.get().getType())
         ) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doc Not Found");
