@@ -23,16 +23,22 @@ public class ManifestUtil {
         }
     }
 
-    public String getJs() {
+    public String getJs(String xEnd) {
+        if (xEnd.equals("backend")) {
+            return PREFIX + this.manifest.getBackendJs().getFile();
+        }
         return PREFIX + this.manifest.getJs().getFile();
     }
 
-    public String getCss() {
+    public String getCss(String xEnd) {
+        if (xEnd.equals("backend")) {
+            return PREFIX + this.manifest.getBackendCss().getFile();
+        }
         return PREFIX + this.manifest.getCss().getFile();
     }
 
     public static void main(String[] args) {
-        System.out.println(new ManifestUtil().getJs());
-        System.out.println(new ManifestUtil().getCss());
+        System.out.println(new ManifestUtil().getJs("frontend"));
+        System.out.println(new ManifestUtil().getCss("backend"));
     }
 }

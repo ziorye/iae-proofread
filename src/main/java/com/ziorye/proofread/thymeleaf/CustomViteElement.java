@@ -34,11 +34,15 @@ public class CustomViteElement extends AbstractElementTagProcessor {
         String servletContextPath = applicationContext.getEnvironment().getProperty("server.servlet.context-path", "");
 
         String type = tag.getAttributeValue("type");
+        String frontendOrBackend = tag.getAttributeValue("x-end");
+        if (frontendOrBackend == null) {
+            frontendOrBackend = "frontend";
+        }
 
         if ("css".equals(type)) {
             IOpenElementTag openLinkElementTag = modelFactory.createOpenElementTag("link");
             openLinkElementTag = modelFactory.setAttribute(openLinkElementTag, "rel", "stylesheet");
-            openLinkElementTag = modelFactory.setAttribute(openLinkElementTag, "href", servletContextPath + new ManifestUtil().getCss());
+            openLinkElementTag = modelFactory.setAttribute(openLinkElementTag, "href", servletContextPath + new ManifestUtil().getCss(frontendOrBackend));
             viteModel.add(openLinkElementTag);
             ICloseElementTag coleLinkElementTag = modelFactory.createCloseElementTag("link");
             viteModel.add(coleLinkElementTag);
@@ -47,7 +51,7 @@ public class CustomViteElement extends AbstractElementTagProcessor {
         if ("js".equals(type)) {
             IOpenElementTag openScriptElementTag = modelFactory.createOpenElementTag("script");
             openScriptElementTag = modelFactory.setAttribute(openScriptElementTag, "type", "module");
-            openScriptElementTag = modelFactory.setAttribute(openScriptElementTag, "src", servletContextPath + new ManifestUtil().getJs());
+            openScriptElementTag = modelFactory.setAttribute(openScriptElementTag, "src", servletContextPath + new ManifestUtil().getJs(frontendOrBackend));
             viteModel.add(openScriptElementTag);
             ICloseElementTag closeScriptElementTag = modelFactory.createCloseElementTag("script");
             viteModel.add(closeScriptElementTag);

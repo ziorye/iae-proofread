@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/vendor/adminlte/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/vendor/adminlte/dist/css/adminlte.min.css">
+  <lms:vite type="css" x-end="backend"/>
   <th:block th:replace="${css}" />
 </head>
 <body class="hold-transition sidebar-mini">
@@ -135,6 +136,7 @@
 <script src="/vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/vendor/adminlte/dist/js/adminlte.min.js"></script>
+<lms:vite type="js" x-end="backend"/>
 <th:block th:replace="${js}" />
 </body>
 </html>
