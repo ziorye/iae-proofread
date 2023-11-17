@@ -18,6 +18,7 @@ public class Collection {
 
     String title;
     String titleTranslation;
+    @Column(unique = true)
     String slug;
     String type;
     String content;

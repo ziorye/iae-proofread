@@ -4,7 +4,6 @@ import com.ziorye.proofread.dto.CollectionDto;
 import com.ziorye.proofread.entity.Collection;
 import com.ziorye.proofread.service.CollectionService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -13,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -60,7 +60,7 @@ public class CollectionController {
     }
 
     @PostMapping("store")
-    String store(@RequestParam(value = "coverFile", required = false) MultipartFile file, @Valid @ModelAttribute("collection") CollectionDto collectionDto,
+    String store(@RequestParam(value = "coverFile", required = false) MultipartFile file, @Validated(CollectionDto.OnSave.class) @ModelAttribute("collection") CollectionDto collectionDto,
                  BindingResult result) throws IOException {
         if (result.hasErrors()) {
             return "backend/collection/create";
@@ -103,7 +103,7 @@ public class CollectionController {
 
     @PutMapping("update")
     @PreAuthorize("#collectionDto.user_id == authentication.principal.user.id")
-    String update(@RequestParam(value = "coverFile", required = false) MultipartFile file, @Valid @ModelAttribute("collection") CollectionDto collectionDto, BindingResult result, Model model) throws IOException {
+    String update(@RequestParam(value = "coverFile", required = false) MultipartFile file, @Validated(CollectionDto.OnUpdate.class) @ModelAttribute("collection") CollectionDto collectionDto, BindingResult result, Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute("collection", collectionDto);
             return "backend/collection/edit";

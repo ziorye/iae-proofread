@@ -183,4 +183,47 @@ class CollectionControllerTest extends WithMockUserForAdminBaseTest {
         Assertions.assertEquals(byId.get().isPublished(), !published);
         collectionRepository.delete(byId.get());
     }
+
+    @Test
+    void storeWithCustomUniqueValidator(@Autowired CollectionRepository collectionRepository) throws Exception {
+        String title = "title-" + UUID.randomUUID();
+        String slug = "slug-" + UUID.randomUUID();
+
+        Collection collection = new Collection();
+        collection.setTitle(title);
+        collection.setSlug(UUID.randomUUID().toString());
+        collection.setType("doc");
+        collection.setSlug(slug);
+        collection.setUser(new User(1L));
+        collectionRepository.save(collection);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/backend/collections/store")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "")
+                        .param("title", title)
+                        .param("slug", slug)
+                        .param("type", "doc")
+                        .param("user_id", "1")
+                )
+                .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrorCode("collection", "slug", "CustomUnique"))
+        ;
+
+        mvc.perform(MockMvcRequestBuilders
+                        .put("/backend/collections/update")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", collection.getId().toString())
+                        .param("title", title + "--updated")
+                        .param("slug", slug)
+                        .param("type", "doc")
+                        .param("user_id", "1")
+                )
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/backend/collections"))
+        ;
+
+        Optional<Collection> co = collectionRepository.findFirstByTitle(title + "--updated");
+        Assertions.assertTrue(co.isPresent());
+
+        collectionRepository.delete(co.get());
+    }
 }
