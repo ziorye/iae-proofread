@@ -73,8 +73,11 @@
               <span th:text="${lecture.title}">lecture.title</span>
               <span class="lecture-actions small pl-2">
                   <a href="#" th:href="@{'/backend/lectures/edit/' + ${lecture.id}(collection_id=${collection.id}, section_id=${section.id})}"><i class="fa fa-edit"></i></a>
-                  <a href="#">
-                      <i class="fa fa-trash-alt"></i>
+                  <a href="#"
+                     th:onclick="|event.preventDefault(); if(confirm('Are you sure you want to Remove?')) document.getElementById('destroy-form-${lecture.id}').submit();|">
+                      <i class="fas fa-trash-alt"></i>
+                      <form th:id="${'destroy-form-' + lecture.id}" th:action="@{'/backend/lectures/destroy/' + ${lecture.id}}" th:method="delete" style="display: none;">
+                      </form>
                   </a>
               </span>
             </li>

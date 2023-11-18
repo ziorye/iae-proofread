@@ -82,4 +82,11 @@ public class LectureController {
 
         return "redirect:/backend/collections/edit/" + lectureDto.getCollection_id();
     }
+
+    @DeleteMapping("destroy/{id}")
+    String destroy(@PathVariable Long id) {
+        Lecture lecture = lectureService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lecture Not Found"));
+        lectureService.destroy(id);
+        return "redirect:/backend/collections/edit/" + lecture.getCollection().getId();
+    }
 }
