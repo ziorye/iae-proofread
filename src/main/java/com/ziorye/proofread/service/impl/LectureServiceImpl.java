@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class LectureServiceImpl implements LectureService {
@@ -20,6 +21,13 @@ public class LectureServiceImpl implements LectureService {
     public void save(LectureDto lectureDto) {
         Lecture lecture = new Lecture();
 
+        if (lectureDto.getId() != null) {
+            lecture = lectureRepository.findById(lectureDto.getId()).get();
+            lecture.setUpdatedAt(LocalDateTime.now());
+        } else {
+            lecture.setCreatedAt(LocalDateTime.now());
+        }
+
         lecture.setTitle(lectureDto.getTitle());
         lecture.setContent(lectureDto.getContent());
         lecture.setPublished(lectureDto.isPublished());
@@ -29,7 +37,11 @@ public class LectureServiceImpl implements LectureService {
         lecture.setDescription(lectureDto.getDescription());
         lecture.setSection(new Section(lectureDto.getSection_id()));
         lecture.setCollection(new Collection(lectureDto.getCollection_id()));
-        lecture.setCreatedAt(LocalDateTime.now());
         lectureRepository.save(lecture);
+    }
+
+    @Override
+    public Optional<Lecture> findById(Long id) {
+        return lectureRepository.findById(id);
     }
 }
