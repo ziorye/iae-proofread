@@ -43,6 +43,7 @@ public class CollectionController {
     @DeleteMapping("destroy/{id}")
     String destroy(@PathVariable Long id) {
         collectionService.destroy(id);
+        // also destroy sections and lectures? or throw custom exception
         return "redirect:/backend/collections";
     }
 
@@ -50,6 +51,7 @@ public class CollectionController {
     @ResponseBody
     String destroyBatch(@RequestParam(value = "ids[]") List<Long> ids) {
         collectionService.destroyAllById(ids);
+        // also destroy sections and lectures? or throw custom exception
         return "DONE";
     }
 
