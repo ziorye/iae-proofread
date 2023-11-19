@@ -9,6 +9,7 @@
     <meta name="keywords" content="校对,校對,proof,proofread">
     <lms:vite type="css"/>
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"></link>
+    <th:block th:replace="${css}" />
 </head>
 <body class="d-flex flex-column h-100">
 <header>
@@ -81,5 +82,6 @@
     </div>
 </footer>
 <lms:vite type="js"/>
+<th:block th:replace="${js}" />
 </body>
 </html>

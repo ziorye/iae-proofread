@@ -52,4 +52,24 @@ class CollectionControllerTest {
 
         collectionRepository.deleteAllById(ids);
     }
+
+    @Test
+    void show() throws Exception {
+        Collection collection = new Collection();
+        collection.setTitle(UUID.randomUUID().toString());
+        collection.setSlug(UUID.randomUUID().toString());
+        collection.setType("doc");
+        collection.setPublished(true);
+        collection.setUser(new User(1L));
+        collectionRepository.save(collection);
+
+        mvc.perform(MockMvcRequestBuilders.get("/docs/" + collection.getId()))
+                .andExpect(MockMvcResultMatchers.view().name("collection/doc/show"))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(" 个章节 • ")))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(" 篇文章")))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("<a href=\"javascript:void(0)\" class=\"toggle-syllabus\"></a>")))
+        ;
+
+        collectionRepository.delete(collection);
+    }
 }

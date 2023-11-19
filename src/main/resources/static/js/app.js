@@ -22,3 +22,6 @@ if (document.getElementById("typed-strings")) {
 }
 
 import 'animate.css';
+
+import $ from 'jquery';
+window.$ = $;
