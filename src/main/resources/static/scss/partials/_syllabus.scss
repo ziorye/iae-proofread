@@ -57,11 +57,19 @@ body.dragging, body.dragging * {
         }
     }
 
-    .section-actions, .lecture-actions {
+    .section-actions, .lecture-actions, .block-actions {
         font-size: 10px;
         display: none;
     }
 
+    .section-plus {
+        margin-left: 5px;
+        margin-bottom: 5px;
+
+        i.section-plus-icon {
+            padding-right: 5px;
+        }
+    }
     .lecture-plus {
         margin-left: 20px;
         margin-bottom: 5px;
@@ -70,11 +78,11 @@ body.dragging, body.dragging * {
             padding-right: 5px;
         }
     }
-    .section-plus {
-        margin-left: 5px;
+    .block-plus {
+        margin-left: 20px;
         margin-bottom: 5px;
 
-        i.section-plus-icon {
+        i.block-plus-icon {
             padding-right: 5px;
         }
     }
