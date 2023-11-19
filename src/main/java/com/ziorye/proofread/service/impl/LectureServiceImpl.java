@@ -1,12 +1,15 @@
 package com.ziorye.proofread.service.impl;
 
 import com.ziorye.proofread.dto.LectureDto;
+import com.ziorye.proofread.entity.Block;
 import com.ziorye.proofread.entity.Collection;
 import com.ziorye.proofread.entity.Lecture;
 import com.ziorye.proofread.entity.Section;
+import com.ziorye.proofread.repository.BlockRepository;
 import com.ziorye.proofread.repository.LectureRepository;
 import com.ziorye.proofread.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,9 +20,14 @@ import java.util.Optional;
 public class LectureServiceImpl implements LectureService {
     @Autowired
     LectureRepository lectureRepository;
+    @Autowired
+    BlockRepository blockRepository;
+
+    @Value("${custom.block.separator}")
+    String blockSeparator;
 
     @Override
-    public void save(LectureDto lectureDto) {
+    public Lecture save(LectureDto lectureDto) {
         Lecture lecture = new Lecture();
 
         if (lectureDto.getId() != null) {
@@ -38,7 +46,7 @@ public class LectureServiceImpl implements LectureService {
         lecture.setDescription(lectureDto.getDescription());
         lecture.setSection(new Section(lectureDto.getSection_id()));
         lecture.setCollection(new Collection(lectureDto.getCollection_id()));
-        lectureRepository.save(lecture);
+        return lectureRepository.save(lecture);
     }
 
     @Override
@@ -54,5 +62,17 @@ public class LectureServiceImpl implements LectureService {
     @Override
     public void destroyAllById(List<Long> ids) {
         lectureRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public void saveBlocks(Long lectureId, LectureDto lectureDto) {
+        String[] ss = lectureDto.getContent().split(blockSeparator);
+        for (String s : ss) {
+            Block block = new Block();
+            block.setContent(s.trim());
+            block.setLecture(new Lecture(lectureId));
+            block.setCollection(new Collection(lectureDto.getCollection_id()));
+            blockRepository.save(block);
+        }
     }
 }

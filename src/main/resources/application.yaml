@@ -30,3 +30,7 @@ backend:
     - name: "Collections"
       url: "/backend/collections"
       icon: "layer-group"
+
+custom:
+  block:
+    separator: "===---block---==="
