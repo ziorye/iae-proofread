@@ -76,74 +76,74 @@
             </div>
         </section>
     </div>
+
+    <script id="js">
+        function toggle_checkbox() {
+            if ($("#toggle_checkbox").prop('checked')) {
+                $(".delete_checkbox").prop("checked", true);
+            } else {
+                $(".delete_checkbox").prop("checked", false);
+            }
+        }
+
+        function batch_delete() {
+            let ids = $('.delete_checkbox:checked').map(function () {
+                return $(this).val();
+            }).get();
+            if (ids.length > 0) {
+                do_delete(ids);
+            } else {
+                alert('Please select which records you want to delete');
+            }
+        }
+
+        function do_delete(ids) {
+            if (confirm('Are you sure you want to remove? (id=' + ids + ')')) {
+                $.ajax({
+                    url: '/backend/collections/destroy',
+                    data: {
+                        ids: ids
+                    },
+                    type: "DELETE",
+                })
+                    .done(function (response) {
+                        if ('DONE' === response) {
+                            location.href = '/backend/collections';
+                        } else {
+                            console.log(response);
+                            alert(response);
+                        }
+                    })
+                    .fail(function (xhr, status, errorThrown) {
+                        alert("Sorry, there was a problem!");
+                        console.log("Error: " + errorThrown);
+                        console.log("Status: " + status);
+                    })
+            }
+        }
+
+        function togglePublished(target) {
+            let id = $(target).data("id");
+            let text = $(target).data("text");
+            if (confirm('Are you sure you want to ' + text + '? (id=' + id + ')')) {
+                $.ajax({
+                    url: '/backend/collections/togglePublished/' + id,
+                    type: "POST",
+                })
+                    .done(function (response) {
+                        if ('SUCCESS' === response) {
+                            location.href = '/backend/collections';
+                        } else {
+                            console.log(response);
+                            alert(response);
+                        }
+                    })
+                    .fail(function (xhr, status, errorThrown) {
+                        alert("Sorry, there was a problem!");
+                        console.log("Error: " + errorThrown);
+                        console.log("Status: " + status);
+                    })
+            }
+        }
+    </script>
 </div>
-
-<script id="js">
-    function toggle_checkbox() {
-        if ($("#toggle_checkbox").prop('checked')) {
-            $(".delete_checkbox").prop("checked", true);
-        } else {
-            $(".delete_checkbox").prop("checked", false);
-        }
-    }
-
-    function batch_delete() {
-        let ids = $('.delete_checkbox:checked').map(function () {
-            return $(this).val();
-        }).get();
-        if (ids.length > 0) {
-            do_delete(ids);
-        } else {
-            alert('Please select which records you want to delete');
-        }
-    }
-
-    function do_delete(ids) {
-        if (confirm('Are you sure you want to remove? (id=' + ids + ')')) {
-            $.ajax({
-                url: '/backend/collections/destroy',
-                data: {
-                    ids: ids
-                },
-                type: "DELETE",
-            })
-                .done(function (response) {
-                    if ('DONE' === response) {
-                        location.href = '/backend/collections';
-                    } else {
-                        console.log(response);
-                        alert(response);
-                    }
-                })
-                .fail(function (xhr, status, errorThrown) {
-                    alert("Sorry, there was a problem!");
-                    console.log("Error: " + errorThrown);
-                    console.log("Status: " + status);
-                })
-        }
-    }
-
-    function togglePublished(target) {
-        let id = $(target).data("id");
-        let text = $(target).data("text");
-        if (confirm('Are you sure you want to ' + text + '? (id=' + id + ')')) {
-            $.ajax({
-                url: '/backend/collections/togglePublished/' + id,
-                type: "POST",
-            })
-                .done(function (response) {
-                    if ('SUCCESS' === response) {
-                        location.href = '/backend/collections';
-                    } else {
-                        console.log(response);
-                        alert(response);
-                    }
-                })
-                .fail(function (xhr, status, errorThrown) {
-                    alert("Sorry, there was a problem!");
-                    console.log("Error: " + errorThrown);
-                    console.log("Status: " + status);
-                })
-        }
-    }
-</script>
