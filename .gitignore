@@ -37,3 +37,5 @@ node_modules
 src/main/resources/static/build
 
 upload
+
+src/main/resources/application-local.yaml
