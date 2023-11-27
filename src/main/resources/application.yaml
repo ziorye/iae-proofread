@@ -16,6 +16,14 @@ spring:
     host: localhost
     port: 1025
 
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 'your-client-id'
+            client-secret: 'your-client-secret'
+
 backend:
   menus:
     - name: "Dashboard"

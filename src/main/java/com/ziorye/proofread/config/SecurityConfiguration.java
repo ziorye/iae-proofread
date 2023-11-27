@@ -21,6 +21,9 @@ public class SecurityConfiguration {
     @Autowired
     JpaUserDetailsService jpaUserDetailsService;
 
+    @Autowired
+    CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -31,6 +34,10 @@ public class SecurityConfiguration {
                         .usernameParameter("email")
                         .passwordParameter("password")
                         //.defaultSuccessUrl("/user/dashboard", true)
+                )
+                .oauth2Login(o2l -> o2l
+                        .loginPage("/login")
+                        .successHandler(customOAuth2LoginSuccessHandler)
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
