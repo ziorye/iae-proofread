@@ -42,3 +42,9 @@ backend:
 custom:
   block:
     separator: "===---block---==="
+
+  ali:
+    translation:
+      accessKeyId: 'your-accessKeyId'
+      secretAccessKey: 'your-secretAccessKey'
+      endpoint: 'mt.cn-hangzhou.aliyuncs.com'
