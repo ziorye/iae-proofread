@@ -46,4 +46,19 @@ public class OpenAIController {
 
         return response.getChoices().get(0).getMessage().getContent();
     }
+    @GetMapping("/translate")
+    public String openaiTranslate(@RequestParam String prompt, @RequestParam String sourceLanguage, @RequestParam String targetLanguage) {
+        ChatRequest request = new ChatRequest(model, prompt, sourceLanguage, targetLanguage);
+
+        ChatResponse response = restTemplate.postForObject(
+                apiUrl,
+                request,
+                ChatResponse.class);
+
+        if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
+            return "No response";
+        }
+
+        return response.getChoices().get(0).getMessage().getContent();
+    }
 }
