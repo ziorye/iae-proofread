@@ -43,6 +43,9 @@ custom:
   block:
     separator: "===---block---==="
 
+  translator:
+    service: 'aliTextTranslatorServiceImpl' # aliTextTranslatorServiceImpl or openAITextTranslatorServiceImpl
+
   ali:
     translation:
       accessKeyId: 'your-accessKeyId'

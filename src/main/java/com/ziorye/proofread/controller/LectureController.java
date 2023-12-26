@@ -7,7 +7,8 @@ import com.ziorye.proofread.service.BlockService;
 import com.ziorye.proofread.service.LectureService;
 import com.ziorye.proofread.service.TextTranslatorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,15 @@ public class LectureController {
     LectureService lectureService;
 
     @Autowired
-    //@Qualifier("aliTextTranslatorServiceImpl")
-    @Qualifier("openAITextTranslatorServiceImpl")
+    BlockService blockService;
+
     TextTranslatorService translatorService;
 
-    @Autowired
-    BlockService blockService;
+    public LectureController(@Autowired Environment environment, @Autowired ApplicationContext applicationContext) {
+        this.translatorService = (TextTranslatorService) applicationContext.getBean(
+                environment.getProperty("custom.translator.service", "aliTextTranslatorServiceImpl")
+        );
+    }
 
     @GetMapping("/docs/lecture/{id}")
     String show(@PathVariable Long id, @RequestParam(value = "ct", defaultValue = "c") String ct, Model model) {
