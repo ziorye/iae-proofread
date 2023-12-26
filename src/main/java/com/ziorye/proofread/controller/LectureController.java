@@ -7,6 +7,7 @@ import com.ziorye.proofread.service.BlockService;
 import com.ziorye.proofread.service.LectureService;
 import com.ziorye.proofread.service.TextTranslatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class LectureController {
     LectureService lectureService;
 
     @Autowired
+    //@Qualifier("aliTextTranslatorServiceImpl")
+    @Qualifier("openAITextTranslatorServiceImpl")
     TextTranslatorService translatorService;
 
     @Autowired
